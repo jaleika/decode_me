@@ -7,3 +7,4 @@ pytest
 pylint
 seaborn
 scikit-learn
+tensorflow
