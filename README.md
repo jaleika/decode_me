@@ -3,8 +3,8 @@
 ## Clone the project
 
 ```bash
-mkdir ~/code/<PROJECT_LEADER_GITHUB_NICKNAME> && cd "$_"
-git clone git@github.com:<PROJECT_LEADER_GITHUB_NICKNAME>/<PROJECT_NAME>.git
+mkdir ~/code/jaleika && cd "$_"
+git clone git@github.com:jaleika/decode_me.git
 cd project_name
 ```
 ## Add a raw_data directory
