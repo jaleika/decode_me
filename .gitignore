@@ -1,2 +1,4 @@
 raw_data/
 .env
+.pyc
+decode/api/__pycache__/
