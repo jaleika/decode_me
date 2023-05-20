@@ -6,6 +6,7 @@ from tensorflow.keras import models, Sequential, layers
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.dummy import DummyClassifier
+from joblib import dump, load
 
 # assign batch size, used for reading in the dataset
 BATCH_SIZE = 32
@@ -56,14 +57,46 @@ def get_num_images(ds, batch_size=BATCH_SIZE):
     return len(classes)
 
 
-# get the class distribution
+
 def get_class_distribution(classes):
+    """Get the class distribution
+
+    Parameters
+    ----------
+    classes : np.array
+
+    Returns
+    -------
+    np.array
+        Distribution per class
+    """
     return np.unique(classes, return_counts=True)[1] / len(classes)
 
 
 def get_baseline_model(
     train_ds, test_ds, num_batches_train=40, num_batches_test=20, dummy=True
 ):
+    """Get a baseline model
+
+    Parameters
+    ----------
+    train_ds : _type_
+        _description_
+    test_ds : _type_
+        _description_
+    num_batches_train : int, optional
+        _description_, by default 40
+    num_batches_test : int, optional
+        _description_, by default 20
+    dummy : bool, optional
+        _description_, by default True
+
+    Returns
+    -------
+    _type_
+        _description_
+    """    """"""
+
     X_train, y_train = get_first_batches(train_ds, 40)
     y_cat_train = to_categorical(y_train, num_classes=7)
     X_test, y_test = get_first_batches(test_ds, 20)
@@ -74,18 +107,37 @@ def get_baseline_model(
         dummy_score_train = model.score(X_train, y_train)
         dummy_score_test = model.score(model.predict(X_test), y_test)
         print(
-            f"The dummy model has an accuracy of {round(dummy_score_train,2)*100}% on the train set and {round(dummy_score_test,2)*100}% on the test set."
+            f"The dummy model has an accuracy of {round(dummy_score_train*100,1)}% on the train set and {round(dummy_score_test*100,1)}% on the test set."
         )
         return model
     return None
 
 
-# call this function to load the train and test dataset and return a baseline model. If dummy=True returns a dummy model predicting the most probable class in train set.
-
 
 def pipeline_baseline(dummy=True):
+    """"""
+    """Call this function to load the train and test dataset and return a baseline model.
+    If you want to call the model for predicting a single image make sure your image is in a 4-d tensor. If not call
+    model.predict(np.expand_dims(bs[0],0))
+
+    Args:
+        dummy (bool, optional): If True, returns a dummy model predicting the most probable class in train set.
+
+    Returns:
+        _type_: sklearn Model
+    """
     train_ds = load_data_local(DIR_TRAIN)
     test_ds = load_data_local(DIR_TEST)
     assert train_ds.class_names == test_ds.class_names
     model = get_baseline_model(train_ds, test_ds, dummy=dummy)
+    return model
+
+
+def create_and_save_dummy_model(filename, dummy=True):
+    model = pipeline_baseline(dummy)
+    dump(model, f"{filename}.joblib")
+
+
+def load_dummy_model(filename):
+    model = load(f"{filename}.joblib")
     return model
