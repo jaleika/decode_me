@@ -26,4 +26,12 @@ pyenv local decode_me # This command creates a .python-version file in the direc
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
+
+#### usage of makefile to install package
+make install clean
+
+## usage of makefile to reinstall package
+
+make reinstall_package
+
 ```

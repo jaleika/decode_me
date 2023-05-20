@@ -1,0 +1,11 @@
+README.md
+setup.py
+decode/__init__.py
+decode/lib.py
+decode.egg-info/PKG-INFO
+decode.egg-info/SOURCES.txt
+decode.egg-info/dependency_links.txt
+decode.egg-info/requires.txt
+decode.egg-info/top_level.txt
+decode/api/__init__.py
+decode/api/fast.py
