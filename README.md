@@ -27,11 +27,11 @@ pyenv local decode_me # This command creates a .python-version file in the direc
 pip install --upgrade pip
 pip install -r requirements.txt
 
-#### usage of makefile to install package
+#### To install the package the first time:
 make install clean
 
-## usage of makefile to reinstall package
-
+## Incase you have to reinstall the package
+## use:
 make reinstall_package
 
 ```
