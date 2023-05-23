@@ -1,6 +1,6 @@
 import numpy as np
 import os
 
-LOCAL_REGISTRY_PATH = os.path.join(
-    os.path.expanduser("~"), ".jaleika", "mlops", "training_outputs"
+LOCAL_MODELS_DATA_PATH = os.path.join(
+    os.path.expanduser("~"), "code", "jaleika", "decode_me"
 )

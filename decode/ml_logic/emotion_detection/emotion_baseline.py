@@ -11,8 +11,9 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 # assign batch size, used for reading in the dataset
 BATCH_SIZE = 32
-DIR_TRAIN = "../../../raw_data/fer_2013/train"
-DIR_TEST = "../../../raw_data/fer_2013/test"
+DIR_TRAIN = f"{LOCAL_MODELS_DATA_PATH}/raw_data/fer_2013/train"
+DIR_TEST = f"{LOCAL_MODELS_DATA_PATH}/raw_data/fer_2013/test"
+DIR_MODELS = f"{LOCAL_MODELS_DATA_PATH}/models"
 
 
 # load the data into a dataset
@@ -60,7 +61,7 @@ def get_num_images(ds, batch_size=BATCH_SIZE):
 
 
 def get_class_distribution(classes):
-    """Get the class distribution
+    """Get the class distribution: Returns the frequency of classes.
 
     Parameters
     ----------
@@ -69,7 +70,7 @@ def get_class_distribution(classes):
     Returns
     -------
     np.array
-        Distribution per class
+        Frequency per class
     """
     return np.unique(classes, return_counts=True)[1] / len(classes)
 
@@ -145,16 +146,17 @@ def load_dummy_model(filename):
     print(f"Dummy model loaded from {filename}.joblib.")
     return model
 
+def get_dummy_model(filename):
+    try:
+        model = load_dummy_model(f"{DIR_MODELS}/dummy_emotion")
+        print("try block ends")
+    except:
+        print("except begins")
+        model = create_and_save_dummy_model(f"{DIR_MODELS}/dummy_emotion", dummy=True)
+    return model
 
 if __name__ == "__main__":
     """Return a model, try first if there is one saved on disk
     """
 
-    #model = create_and_save_dummy_model(f"{LOCAL_REGISTRY_PATH}/dummy_emotion", dummy=True)
-
-    try:
-        model = load_dummy_model(f"{LOCAL_REGISTRY_PATH}/dummy_emotion")
-        print("try block ends")
-    except:
-        print("except begins")
-        model = create_and_save_dummy_model(f"{LOCAL_REGISTRY_PATH}/dummy_emotion", dummy=True)
+    get_dummy_model("dummy_emotion")
