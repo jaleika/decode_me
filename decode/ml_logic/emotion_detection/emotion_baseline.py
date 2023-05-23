@@ -1,17 +1,18 @@
 from tensorflow.keras.utils import image_dataset_from_directory
 import numpy as np
 import pandas as pd
+from sklearn.dummy import DummyClassifier
+from joblib import dump, load
+from decode.params import *
 from tensorflow.keras.applications.inception_v3 import InceptionV3
 from tensorflow.keras import models, Sequential, layers
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import EarlyStopping
-from sklearn.dummy import DummyClassifier
-from joblib import dump, load
 
 # assign batch size, used for reading in the dataset
 BATCH_SIZE = 32
-DIR_TRAIN = "raw_data/fer_2013/train"
-DIR_TEST = "raw_data/fer_2013/test"
+DIR_TRAIN = "../../../raw_data/fer_2013/train"
+DIR_TEST = "../../../raw_data/fer_2013/test"
 
 
 # load the data into a dataset
@@ -136,8 +137,24 @@ def pipeline_baseline(dummy=True):
 def create_and_save_dummy_model(filename, dummy=True):
     model = pipeline_baseline(dummy)
     dump(model, f"{filename}.joblib")
-
+    print(f"Dummy model saved to {filename}.joblib")
+    return model
 
 def load_dummy_model(filename):
     model = load(f"{filename}.joblib")
+    print(f"Dummy model loaded from {filename}.joblib.")
     return model
+
+
+if __name__ == "__main__":
+    """Return a model, try first if there is one saved on disk
+    """
+
+    #model = create_and_save_dummy_model(f"{LOCAL_REGISTRY_PATH}/dummy_emotion", dummy=True)
+
+    try:
+        model = load_dummy_model(f"{LOCAL_REGISTRY_PATH}/dummy_emotion")
+        print("try block ends")
+    except:
+        print("except begins")
+        model = create_and_save_dummy_model(f"{LOCAL_REGISTRY_PATH}/dummy_emotion", dummy=True)
