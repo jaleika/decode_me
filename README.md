@@ -34,4 +34,7 @@ make install clean
 ## use:
 make reinstall_package
 
+##In order to run the API:
+make run_api
+
 ```
