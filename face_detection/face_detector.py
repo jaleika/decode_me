@@ -4,7 +4,11 @@ import cvlib as cv
 from cvlib.object_detection import detect_common_objects, draw_bbox
 
 # Load and process images
-image_paths = ["test_image_1.jpg", "test_image_2.jpg", "test_image_3.jpg"]
+image_paths = [
+    "face_detection/test_image_1.jpg",
+    "face_detection/test_image_2.jpg",
+    "face_detection/test_image_3.jpg",
+]
 images = [cv2.imread(image_path) for image_path in image_paths]
 
 # Plot the images with bounding boxes
