@@ -13,3 +13,5 @@ pytz
 uvicorn
 httpx
 pytest-asyncio
+opencv-python
+cvlib
