@@ -3,7 +3,7 @@ from pathlib import Path
 import cv2
 
 
-def crop_faces(image_path: str = "face_detection/test_image_1.jpg"):
+def crop_faces(image_path: str = "face_detection/test_image_3.jpg"):
 
     """Extracts faces from an image and save them as separate images in "export" folder
     Args: image path
