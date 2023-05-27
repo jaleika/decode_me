@@ -22,6 +22,7 @@ from skimage.transform import resize
 
 import time
 
+url = 'http://127.0.0.1:8000'
 
 #Use the full page instead of a narrow central column
 st.set_page_config(page_title='Decode me',
@@ -32,53 +33,32 @@ st.set_page_config(page_title='Decode me',
 tab1, tab2 = st.tabs(["Decode me", "Team"])
 
 with tab1:
-    import base64
-    @st.cache
-    def load_image(path):
-        with open(path, 'rb') as f:
-            data = f.read()
-        encoded = base64.b64encode(data).decode()
-        return encoded
 
-    def image_tag(path):
-        encoded = load_image(path)
-        tag = f'<img src="data:image/png;base64,{encoded}">'
-        return tag
 
-    def background_image_style(path):
-        encoded = load_image(path)
-        style = f'''
-        <style>
-        .stApp {{
-            background-image: url("data:image/png;base64,{encoded}");
-            background-size: cover;
-        }}
-        </style>
-        '''
-        return style
-
-    st.markdown(
-        """
+    st.image('face.jpg', width = 900)
+    st.markdown("""
     <style>
-    .sidebar .sidebar-content {
-        background-image: linear-gradient(#2e7bcf,#2e7bcf);
-        color: white;
+      [data-testid=stSidebar] {
+        background-color: #5B5B5B;
     }
     </style>
-    """,
-        unsafe_allow_html=True,
-    )
+    """,unsafe_allow_html=True)
 
 
     with st.sidebar:
         st.header("Decode the face")
-        st.markdown('Upload a picture/screenshot of a person or people')
-        uploaded_file = st.file_uploader("Choose a face image", type = ['png', 'jpg', 'jpeg'])
+        st.markdown('Upload a picture of a person or people')
+        uploaded_image = st.file_uploader("Choose a face image", type = ['png', 'jpg'], accept_multiple_files=False)
+        if uploaded_image:
+            if st.button(f'Get result'):
 
-        recipe_button = st.button("Decode me")
+                url_endpoint = f"{url}/predict"
+                res = requests.post(url = url_endpoint,files = {'img': uploaded_image.getvalue()})
+                st.subheader(f"Resonse from API = {res.json()}")
 
 
-    st.sidebar.image('face.jpg', use_column_width=True)
+
+    st.sidebar.image('face4.jpg', use_column_width=True)
 
 with tab2:
     col1, col2, col3 = st.columns((4, 4, 2))
