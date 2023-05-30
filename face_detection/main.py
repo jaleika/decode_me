@@ -27,6 +27,7 @@ def crop_faces(image_path:str = "face_detection/images/test_image_1.jpg"):
         cropped_file_path = f"face_detection/export/{path.stem}_-_{coordinates_string}.jpg"
         cv2.imwrite(cropped_file_path, cropped_image)
 
+
 if __name__ == "__main__":
     all_images = glob.glob('face_detection/images/*.[jp][np]g')
     for file_path in all_images:

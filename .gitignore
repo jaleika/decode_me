@@ -10,8 +10,8 @@ __MACOSX
 # Jupiter Notebook #
 .pytest_cache
 __pycache__
-*checkpoint.ipynb
-*.ipynb_checkpoints
+checkpoint.ipynb
+.ipynb_checkpoints
 
 # inteliJ #
 .idea

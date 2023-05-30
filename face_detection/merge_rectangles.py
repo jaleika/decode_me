@@ -1,5 +1,4 @@
 import cv2
-import os, sys
 import glob
 
 def merge_rectangles():
@@ -28,6 +27,3 @@ def merge_rectangles():
         # Put the emotion text above the bounding box
         cv2.putText(image, 'emotion_status_text', top_left, cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
         cv2.imwrite(original_file_path_with_ext, image)
-
-# using test
-merge_rectangles()
