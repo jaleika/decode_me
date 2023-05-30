@@ -5,7 +5,7 @@ import cv2
 
 def histogram_equalization(image):
 
-    """Applies histogram equalisation to the original image"""
+    """Applies histogram equalization to the original image"""
 
     # Split the image into its color channels
     b, g, r = cv2.split(image)
@@ -17,43 +17,46 @@ def histogram_equalization(image):
     return cv2.merge([b_eq, g_eq, r_eq])
 
 
-def crop_faces(image, image_path):
+def crop_faces(image, image_path: str) -> list[dict]:
 
-    """Extracts faces from an image and save them as separate images in "export" folder
+    """Extracts faces from an image and returns the list of faces.
+    Each face is represented by a dictionary, which contains the extracted face image, the name of the original image
+    and the coordinates of the face on the original image.
     Args: image path
     """
 
     # Load the model
     model = get_model("yolov5n", gpu=-1, target_size=512, min_face=24)
 
+    faces = []
     # Perform face detection
-    faces, _key_points = model(image)
-    for index, face in enumerate(faces[0]):
-        cropped_image = image[
-            face[1] : face[3],
-            face[0] : face[2],
-        ]
+    boxes, _key_points = model(image)
+    for face in boxes[0]:
         path = Path(image_path)
-        coordinates_string = ",".join(map(str, face))
-        cv2.imwrite(
-            f"face_detection/export/{path.stem}_-_{coordinates_string}.jpg",
-            cropped_image,
+        faces.append(
+            {
+                "image": image[
+                    face[1] : face[3],
+                    face[0] : face[2],
+                ],
+                "image_name": path.name,
+                "coordinates": face,
+            }
         )
+    return faces
 
 
-def face_detection(
-    image_path: str = "face_detection/test_image_1.jpg", should_equalize=True
-):
+def face_detection(image_path: str, should_equalize=True):
 
     """Reads the image from the path, then performs histogram equalization and extracts the faces"""
 
     image = cv2.imread(image_path)
     if should_equalize:
         equalized_image = histogram_equalization(image)
-        crop_faces(equalized_image, image_path)
+        return crop_faces(equalized_image, image_path)
     else:
-        crop_faces(image, image_path)
+        return crop_faces(image, image_path)
 
 
 if __name__ == "__main__":
-    main()
+    print(face_detection("decode/ml_logic/face_detection/test_image_1.jpg"))
