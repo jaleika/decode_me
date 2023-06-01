@@ -1,7 +1,9 @@
 import pandas as pd
 import numpy as np
-from cv2 import cv2
+import cv2
 from starlette.responses import Response
+import pickle
+# Export Pipeline as pickle file
 
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,16 +20,17 @@ async def predict(image: UploadFile=File()):
 
     nparr =  np.fromstring(content, np.uint8)
     cv2_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR) # type(cv2_img) => numpy.ndarray
-
-    y_pred = app.state.model.predict(cv2_img)
-    detection = dict({0: 'angry',
+    expanded = (np.expand_dims(cv2_img,0))
+    y_pred = app.state.model.predict(expanded)
+    detection =       {0: 'angry',
                         1: 'disgust',
                         2: 'fear',
                         3: 'happy',
                         4: 'neutral',
                         5: 'sad',
-                        6: 'surprise'})
-    return detection[y_pred]
+                        6: 'surprise'}
+    final = detection[y_pred[0]]
+    return {'mood': final}
     #return {'status quo': f"dummy emotion model loaded prediction is: {detection[y_pred]}"}
 
 
