@@ -52,9 +52,11 @@ with tab1:
         if uploaded_image:
             if st.button(f'Get result'):
 
-                url_endpoint = f"{url}/predict"
-                res = requests.post(url = url_endpoint,files = {'img': uploaded_image.getvalue()})
-                st.subheader(f"Resonse from API = {res.json()}")
+                #url_endpoint = f"{url}predict"
+                img_bytes = uploaded_image.getvalue()
+                #st.image(Image.open(uploaded_image))
+                res = requests.post(url = url + "/predict", files = {'image': img_bytes})
+                st.write(f"The mood of the picture is: {res.json()['mood']}")
 
 
 
