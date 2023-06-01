@@ -3,6 +3,11 @@ from pathlib import Path
 import cv2
 
 
+def get_face_detection_model():
+    model = get_model("yolov5n", gpu=-1, target_size=512, min_face=24)
+    return model
+
+
 def histogram_equalization(image):
 
     """Applies histogram equalization to the original image"""
