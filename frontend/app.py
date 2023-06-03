@@ -61,8 +61,11 @@ with tab1:
                 img_bytes = uploaded_image.getvalue()
                 #st.image(Image.open(uploaded_image))
                 res = requests.post(url = url + "/predict", files = {'image': img_bytes})
-                st.write(f"The mood of the picture is: {res.json()['mood']}")
 
+                st.write(f"The mood of the picture is: {res.json()['mood']}")
+                # TODO: change img_bytes in the following so that it contains colored boxes around the faces encoding the mood the emotion as text
+
+                imageLocation.image(img_bytes, width = 900)
 
 
     st.sidebar.image('face4.jpg', use_column_width=True)

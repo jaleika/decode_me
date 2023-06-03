@@ -46,7 +46,7 @@ async def predict(image: UploadFile=File()):
                         6: 'surprise'}
     print(y_pred)
     final = [detection[np.argmax(pred)] for pred in y_pred]
-    return {'mood':final}#}str(len(final))}
+    return {'mood':final, 'corners': corners}#}str(len(final))}
     #return {'status quo': f"dummy emotion model loaded prediction is: {detection[y_pred]}"}
 
 
