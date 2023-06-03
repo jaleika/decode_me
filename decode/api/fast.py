@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 import cv2
 from starlette.responses import Response
@@ -41,7 +40,7 @@ async def predict(image: UploadFile=File()):
 
         face_bw = tf.stack([face_img.mean(axis = -1), face_img.mean(axis = -1), face_img.mean(axis = -1)], axis =  -1)
         face_bw_resize = tf.image.resize(face_bw, [150,150])
-        y_pred.append(app.state.model_emotion .predict(np.expand_dims(face_bw_resize,0)))
+        y_pred.append(app.state.model_emotion.predict(np.expand_dims(face_bw_resize,0)))
 #        y_pred.append(app.state.model_emotion.predict(np.expand_dims(face_img_resize,0)))
 
     detection =       {0: 'angry',
