@@ -17,3 +17,6 @@ opencv-python
 yolo5face
 pyyaml
 torchvision
+scikit-image
+streamlit
+python-multipart
