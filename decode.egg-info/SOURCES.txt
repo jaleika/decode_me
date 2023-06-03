@@ -15,5 +15,5 @@ decode/ml_logic/data.py
 decode/ml_logic/emotion_detection/__init__.py
 decode/ml_logic/emotion_detection/emotion_baseline.py
 decode/ml_logic/emotion_detection/params.py
-face_detection/__init__.py
-face_detection/main.py
+decode/ml_logic/face_detection/__init__.py
+decode/ml_logic/face_detection/main.py
