@@ -31,10 +31,13 @@ pip install -r requirements.txt
 make install clean
 
 ## Incase you have to reinstall the package
-## use:
+## use: (in root folder)
 make reinstall_package
 
-##In order to run the API:
+##In order to run the API: (in root folder)
 make run_api
+
+## In order to run streamlit: (in frontend folder)
+make streamlit
 
 ```
