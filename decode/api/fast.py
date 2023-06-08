@@ -1,11 +1,8 @@
 import numpy as np
 import cv2
-from starlette.responses import Response
 from decode.params import *
 from fastapi import FastAPI, UploadFile, File
-from fastapi.middleware.cors import CORSMiddleware
-from decode.ml_logic.emotion_detection.emotion_baseline import get_dummy_model
-from decode.ml_logic.face_detection.main import get_face_detection_model, histogram_equalization
+from decode.preprocessing.image_processing import histogram_equalization
 from tensorflow.keras.models import load_model
 import tensorflow as tf
 import pickle
@@ -14,12 +11,12 @@ app = FastAPI()
 # the way to load the model into memory
 #app.state.model_face_detection = get_face_detection_model()
 
-DIR_MODELS = f"{LOCAL_MODELS_DATA_PATH}/models"
+#DIR_MODELS = f"{LOCAL_MODELS_DATA_PATH}/models"
 
 # put the latest model into the models-folder and rename it to 'latest_model'
-app.state.model_emotion = load_model(f'{DIR_MODELS}/latest_model.h5')
-with open(f'{DIR_MODELS}/model_face_detection.pkl', 'rb') as f:
-    app.state.model_face_detection = pickle.load(f)
+app.state.model_emotion = load_model('models/latest_model.h5')
+#with open('models/model_face_detection.pkl', 'rb') as f:
+app.state.model_face_detection = pickle.load(open('models/model_face_detection.pkl', 'rb'))
 #app.state.model_face_detection = get_face_detection_model()
 
 @app.post("/predict")
