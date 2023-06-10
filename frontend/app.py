@@ -65,7 +65,7 @@ with tab3:
     col1, col2, col3 = st.columns((4, 4, 2))
 
     with col1:
-        st.markdown('## Meet the Decode me Team')
+        st.markdown('## Meet the Team')
         st.markdown('#### Natasha 🍉')
         st.image('Natasha.jpg', width = 250)
         st.markdown('#')
@@ -76,7 +76,7 @@ with tab3:
         st.markdown('#')
         st.markdown('#')
         st.markdown('#### Hayri 🎈')
-        #st.image('Malory.png', width = 250)
+        st.image('Hayri.jpeg', width = 250)
         st.markdown('#')
         st.markdown('#### Isabel 🍹')
         st.image('Isabel.jpg', width = 250)
