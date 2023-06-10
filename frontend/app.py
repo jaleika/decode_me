@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
-import cv2
 import numpy as np
+import cv2
 
 url = " https://decode-eykha3qtfq-ew.a.run.app"
 
