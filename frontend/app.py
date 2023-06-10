@@ -1,28 +1,8 @@
 import streamlit as st
-import pandas as pd
 import requests
-import numpy as np
-from PIL import Image
-import tensorflow as tf
-import seaborn as sns
-import matplotlib.pyplot as plt
-from skimage import io
-from skimage.transform import resize
 
-import streamlit as st
-import pandas as pd
-import requests
-import numpy as np
-from PIL import Image
-import tensorflow as tf
-import seaborn as sns
-import matplotlib.pyplot as plt
-from skimage import io
-from skimage.transform import resize
 
-import time
-
-url = 'http://127.0.0.1:8000'
+url = ' https://decode-eykha3qtfq-ew.a.run.app'
 
 #Use the full page instead of a narrow central column
 st.set_page_config(page_title='Decode me',
@@ -36,8 +16,8 @@ with tab1:
 
     imageLocation = st.empty()
     imageLocation.image('face.jpg', width = 900)
-#    st.image('face.jpg', width = 900)
 
+   # if st.button
 
     st.markdown("""
     <style>
@@ -47,10 +27,20 @@ with tab1:
     </style>
     """,unsafe_allow_html=True)
 
+#####display a widget that returns pictures from th users's webcam.
+    # img_file_buffer = st.camera_input("Take a picture")
+
+    # if img_file_buffer is not None:
+    #     # To read image file buffer as bytes:
+    #     bytes_data = img_file_buffer.getvalue()
+    #     # Check the type of bytes_data:
+    #     # Should output: <class 'bytes'>
+    #     st.write(type(bytes_data))
+
 
     with st.sidebar:
         st.header("Decode the face")
-        st.markdown('Upload a picture of a person or people')
+        st.markdown('Upload a picture.')
         uploaded_image = st.file_uploader("Choose a face image", type = ['png', 'jpg'], accept_multiple_files=False)
         if uploaded_image:
             img_bytes = uploaded_image.getvalue()
