@@ -1,8 +1,11 @@
 import streamlit as st
 import requests
+from time import sleep
+from stqdm import stqdm
 
-
-url = ' https://decode-eykha3qtfq-ew.a.run.app'
+##local url
+#url = 'http://localhost:8000/'
+url = 'https://decode-eykha3qtfq-ew.a.run.app'
 
 #Use the full page instead of a narrow central column
 st.set_page_config(page_title='Decode me',
@@ -10,14 +13,11 @@ st.set_page_config(page_title='Decode me',
                 layout = 'wide',
                 initial_sidebar_state = 'expanded')
 
-tab1, tab2 = st.tabs(["Decode me", "Team"])
+tab1, tab2, tab3 = st.tabs(["Decode others","Decode me", "Team"])
 
 with tab1:
+    c = st.empty()
 
-    imageLocation = st.empty()
-    imageLocation.image('face.jpg', width = 900)
-
-   # if st.button
 
     st.markdown("""
     <style>
@@ -27,46 +27,47 @@ with tab1:
     </style>
     """,unsafe_allow_html=True)
 
-#####display a widget that returns pictures from th users's webcam.
-    # img_file_buffer = st.camera_input("Take a picture")
-
-    # if img_file_buffer is not None:
-    #     # To read image file buffer as bytes:
-    #     bytes_data = img_file_buffer.getvalue()
-    #     # Check the type of bytes_data:
-    #     # Should output: <class 'bytes'>
-    #     st.write(type(bytes_data))
-
 
     with st.sidebar:
-        st.header("Decode the face")
+        st.header("Picture decoding")
         st.markdown('Upload a picture.')
         uploaded_image = st.file_uploader("Choose a face image", type = ['png', 'jpg'], accept_multiple_files=False)
         if uploaded_image:
             img_bytes = uploaded_image.getvalue()
-            imageLocation.image(img_bytes, width = 900)
+            c.image(img_bytes, width = 900)
             if st.button(f'Get result'):
 
-                #url_endpoint = f"{url}predict"
                 img_bytes = uploaded_image.getvalue()
-                #st.image(Image.open(uploaded_image))
                 res = requests.post(url = url + "/predict", files = {'image': img_bytes})
 
                 st.write(f"The mood of the picture is: {res.json()['mood']}")
                 # TODO: change img_bytes in the following so that it contains colored boxes around the faces encoding the mood the emotion as text
 
-                imageLocation.image(img_bytes, width = 900)
+                c.image(img_bytes, width = 900)
 
+    c.image('face.jpg', width = 900)
 
     st.sidebar.image('face4.jpg', use_column_width=True)
 
 with tab2:
+        #####display a widget that returns pictures from th users's webcam.
+    #if st.button('Decode me :sunglasses:', use_container_width=True):
+    img_file_buffer = st.camera_input("Take a picture")
+    if img_file_buffer is not None:
+    # To read image file buffer as bytes:
+        bytes_data = img_file_buffer.getvalue()
+        res = requests.post(url = url + "/predict", files = {'image': bytes_data})
+
+        st.write(f"Your mood looks like: {res.json()['mood']}")
+
+
+with tab3:
     col1, col2, col3 = st.columns((4, 4, 2))
 
     with col1:
         st.markdown('## Meet the Decode me Team')
         st.markdown('#### Natasha 🍉')
-        #st.image('Mariia.png', width = 250)
+        st.image('Natasha.jpg', width = 250)
         st.markdown('#')
         st.markdown('#### Isabella 🍭')
         #st.image('Lisa1.png', width = 250)
@@ -78,4 +79,4 @@ with tab2:
         #st.image('Malory.png', width = 250)
         st.markdown('#')
         st.markdown('#### Isabel 🍹')
-        #st.image('David1.png', width = 250)
+        st.image('Isabel.jpg', width = 250)
