@@ -1,13 +1,5 @@
 import streamlit as st
-import pandas as pd
 import requests
-import numpy as np
-from PIL import Image
-import tensorflow as tf
-import seaborn as sns
-import matplotlib.pyplot as plt
-from skimage import io
-from skimage.transform import resize
 
 import streamlit as st
 import pandas as pd
@@ -20,11 +12,8 @@ import matplotlib.pyplot as plt
 from skimage import io
 from skimage.transform import resize
 import cv2
-import numpy as np
 
-import time
-
-url = "http://127.0.0.1:8000"
+url = " https://decode-eykha3qtfq-ew.a.run.app"
 
 # Use the full page instead of a narrow central column
 st.set_page_config(
@@ -105,7 +94,8 @@ with tab1:
 
     imageLocation = st.empty()
     imageLocation.image("face.jpg", width=900)
-    #    st.image('face.jpg', width = 900)
+
+    # if st.button
 
     st.markdown(
         """
@@ -118,9 +108,19 @@ with tab1:
         unsafe_allow_html=True,
     )
 
+    #####display a widget that returns pictures from th users's webcam.
+    # img_file_buffer = st.camera_input("Take a picture")
+
+    # if img_file_buffer is not None:
+    #     # To read image file buffer as bytes:
+    #     bytes_data = img_file_buffer.getvalue()
+    #     # Check the type of bytes_data:
+    #     # Should output: <class 'bytes'>
+    #     st.write(type(bytes_data))
+
     with st.sidebar:
         st.header("Decode the face")
-        st.markdown("Upload a picture of a person or people")
+        st.markdown("Upload a picture.")
         uploaded_image = st.file_uploader(
             "Choose a face image", type=["png", "jpg"], accept_multiple_files=False
         )
@@ -165,50 +165,3 @@ with tab2:
         st.markdown("#")
         st.markdown("#### Isabel 🍹")
         # st.image('David1.png', width = 250)
-
-    ## the old visual representation
-    """ @st.cache_data
-    def visual(img, res):
-        detection = {
-            0: "angry",
-            1: "disgust",
-            2: "fear",
-            3: "happy",
-            4: "neutral",
-            5: "sad",
-            6: "surprise",
-        }
-        corners = res["corners"]
-        mood = res["mood"]
-        print(mood)
-
-        scale_factor = 900 / img.shape[1]
-        new_dim = (int(scale_factor * img.shape[1]), int(scale_factor * img.shape[0]))
-        img_900 = cv2.resize(img, new_dim, interpolation=cv2.INTER_AREA)
-        print(img_900.shape)
-        img2 = cv2.cvtColor(img_900, cv2.COLOR_BGR2RGB)
-
-        for index, face_corners in enumerate(corners[0]):
-            top_left = face_corners[0:2]
-            top_left2 = [face_corners[0], face_corners[1] - 14]
-            right_bottom = face_corners[2:]
-            if mood[index] == "angry":
-                color = (255, 0, 0)
-            if mood[index] == "disgust":
-                color = (0, 255, 0)
-            if mood[index] == "fear":
-                color = (0, 0, 0)
-            if mood[index] == "happy":
-                color = (7, 223, 255)
-            if mood[index] == "neutral":
-                color = (255, 255, 255)
-            if mood[index] == "sad":
-                color = (111, 111, 111)
-            if mood[index] == "surprise":
-                color = (255, 128, 0)
-            cv2.rectangle(img2, top_left, right_bottom, color, 4)
-            cv2.putText(
-                img2, mood[index], top_left2, cv2.FONT_HERSHEY_SIMPLEX, 1, color, 1
-            )
-        return img2
- """
