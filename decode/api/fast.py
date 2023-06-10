@@ -9,6 +9,7 @@ from decode.ml_logic.face_detection.main import get_face_detection_model, histog
 from tensorflow.keras.models import load_model
 import tensorflow as tf
 import pickle
+from torch import load as torchload
 
 app = FastAPI()
 # the way to load the model into memory
@@ -18,8 +19,9 @@ DIR_MODELS = f"{LOCAL_MODELS_DATA_PATH}/models"
 
 # put the latest model into the models-folder and rename it to 'latest_model'
 app.state.model_emotion = load_model(f'{DIR_MODELS}/latest_model.h5')
-with open(f'{DIR_MODELS}/model_face_detection.pkl', 'rb') as f:
-    app.state.model_face_detection = pickle.load(f)
+app.state.model_face_detection =  torchload(f'{DIR_MODELS}/model_face_detection')
+#with open(f'{DIR_MODELS}/model_face_detection.pkl', 'rb') as f:
+#    app.state.model_face_detection = pickle.load(f)
 #app.state.model_face_detection = get_face_detection_model()
 
 @app.post("/predict")

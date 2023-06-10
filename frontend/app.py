@@ -35,7 +35,7 @@ tab1, tab2 = st.tabs(["Decode me", "Team"])
 with tab1:
 
     imageLocation = st.empty()
-    imageLocation.image('face.jpg', width = 900)
+    imageLocation.image('face.jpg')#, width = 900)
 #    st.image('face.jpg', width = 900)
 
 
@@ -54,7 +54,7 @@ with tab1:
         uploaded_image = st.file_uploader("Choose a face image", type = ['png', 'jpg'], accept_multiple_files=False)
         if uploaded_image:
             img_bytes = uploaded_image.getvalue()
-            imageLocation.image(img_bytes, width = 900)
+            imageLocation.image(img_bytes)#, width = 900)
             if st.button(f'Get result'):
 
                 #url_endpoint = f"{url}predict"
@@ -65,7 +65,7 @@ with tab1:
                 st.write(f"The mood of the picture is: {res.json()['mood']}")
                 # TODO: change img_bytes in the following so that it contains colored boxes around the faces encoding the mood the emotion as text
 
-                imageLocation.image(img_bytes, width = 900)
+                imageLocation.image(img_bytes)#, width = 900)
 
 
     st.sidebar.image('face4.jpg', use_column_width=True)
