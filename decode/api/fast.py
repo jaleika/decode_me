@@ -15,7 +15,7 @@ app = FastAPI()
 # the way to load the model into memory
 #app.state.model_face_detection = get_face_detection_model()
 
-#DIR_MODELS = f"{LOCAL_MODELS_DATA_PATH}/models"
+DIR_MODELS = f"{LOCAL_MODELS_DATA_PATH}/models"
 
 # put the latest model into the models-folder and rename it to 'latest_model'
 #app.state.model_emotion = load_model(f'{DIR_MODELS}/latest_model.h5')
@@ -35,7 +35,17 @@ async def predict(image: UploadFile = File()):
     nparr = np.fromstring(content, np.uint8)
     cv2_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)  # type(cv2_img) => numpy.ndarray
     cv2_img = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB)
+
+    file = open(f'{DIR_MODELS}/cv2_img.pkl', 'wb')
+    pickle.dump(cv2_img, file)
+    file.close()
+
     eq_img = histogram_equalization(cv2_img)
+
+    file = open(f'{DIR_MODELS}/eq_img.pkl', 'wb')
+    pickle.dump(eq_img, file)
+    file.close()
+
     corners, key_points = app.state.model_face_detection.predict(eq_img)
     y_pred = []
     for i in range(len(corners[0])):
@@ -49,7 +59,7 @@ async def predict(image: UploadFile = File()):
             [face_img.mean(axis=-1), face_img.mean(axis=-1), face_img.mean(axis=-1)],
             axis=-1,
         )
-        face_bw_resize = tf.image.resize(face_bw, [150, 150])
+        face_bw_resize = tf.image.resize(face_bw, [224, 224])
         y_pred.append(
             app.state.model_emotion.predict(np.expand_dims(face_bw_resize, 0))
         )
