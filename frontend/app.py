@@ -3,7 +3,8 @@ import requests
 import numpy as np
 import cv2
 
-url = " https://decode-eykha3qtfq-ew.a.run.app"
+#url = " https://decode-eykha3qtfq-ew.a.run.app"
+url = 'http://127.0.0.1:8000'
 
 # Use the full page instead of a narrow central column
 st.set_page_config(
