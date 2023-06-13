@@ -6,4 +6,4 @@ numpy
 tensorflow
 seaborn
 matplotlib
-cv2
+opencv-python
