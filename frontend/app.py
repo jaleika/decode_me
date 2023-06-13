@@ -139,14 +139,16 @@ with tab1:
     st.sidebar.image("face4.jpg", use_column_width=True)
 
 with tab2:
-        #####display a widget that returns pictures from th users's webcam.
-    #if st.button('Decode me :sunglasses:', use_container_width=True):
-    img_file_buffer = st.camera_input("Take a picture")
+    location = st.empty()
+    img_file_buffer = location.camera_input("Take a picture")
     if img_file_buffer is not None:
     # To read image file buffer as bytes:
         bytes_data = img_file_buffer.getvalue()
         res = requests.post(url = url + "/predict", files = {'image': bytes_data})
-
+        ########
+        ### this image needs to get a rectangle and a text:
+        cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+        location.image(cv2_img)
         st.write(f"Your mood looks like: {res.json()['mood']}")
 
 
@@ -159,7 +161,7 @@ with tab3:
         st.image('Natasha.jpg', width = 250)
         st.markdown('#')
         st.markdown('#### Isabella 🍭')
-        #st.image('Lisa1.png', width = 250)
+        st.image('Photo_Isabella_quad.jpeg', width = 250)
 
     with col2:
         st.markdown('#')
