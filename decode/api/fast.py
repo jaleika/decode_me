@@ -41,7 +41,9 @@ async def predict(image: UploadFile = File()):
             [face_img.mean(axis=-1), face_img.mean(axis=-1), face_img.mean(axis=-1)],
             axis=-1,
         )
-        face_bw_resize = tf.image.resize(face_bw, [150, 150])
+        face_bw_resize = tf.image.resize(
+            face_bw, [224, 224]
+        )  # changed input size for emotion model
         y_pred.append(
             app.state.model_emotion.predict(np.expand_dims(face_bw_resize, 0))
         )
