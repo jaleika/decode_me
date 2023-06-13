@@ -3,8 +3,11 @@ import requests
 import numpy as np
 import cv2
 
-#url = " https://decode-eykha3qtfq-ew.a.run.app"
-url = 'http://127.0.0.1:8000'
+
+#url = 'http://127.0.0.1:8000'
+##local url
+#url = 'http://localhost:8000/'
+url = " https://decode-eykha3qtfq-ew.a.run.app"
 
 # Use the full page instead of a narrow central column
 st.set_page_config(
@@ -14,9 +17,10 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-tab1, tab2 = st.tabs(["Decode me", "Team"])
+tab1, tab2, tab3 = st.tabs(["Decode others","Decode me", "Team"])
 
 with tab1:
+    c = st.empty()
 
     @st.cache_data
     def visual(img, res):
@@ -138,21 +142,35 @@ with tab1:
     st.sidebar.image("face4.jpg", use_column_width=True)
 
 with tab2:
+    location = st.empty()
+    img_file_buffer = location.camera_input("Take a picture")
+    if img_file_buffer is not None:
+    # To read image file buffer as bytes:
+        bytes_data = img_file_buffer.getvalue()
+        res = requests.post(url = url + "/predict", files = {'image': bytes_data})
+        ########
+        ### this image needs to get a rectangle and a text:
+        cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+        location.image(cv2_img)
+        st.write(f"Your mood looks like: {res.json()['mood']}")
+
+
+with tab3:
     col1, col2, col3 = st.columns((4, 4, 2))
 
     with col1:
-        st.markdown("## Meet the Decode me Team")
-        st.markdown("#### Natasha 🍉")
-        # st.image('Mariia.png', width = 250)
-        st.markdown("#")
-        st.markdown("#### Isabella 🍭")
-        # st.image('Lisa1.png', width = 250)
+        st.markdown('## Meet the Team')
+        st.markdown('#### Natasha 🍉')
+        st.image('Natasha.jpg', width = 250)
+        st.markdown('#')
+        st.markdown('#### Isabella 🍭')
+        st.image('Photo_Isabella_quad.jpeg', width = 250)
 
     with col2:
-        st.markdown("#")
-        st.markdown("#")
-        st.markdown("#### Hayri 🎈")
-        # st.image('Malory.png', width = 250)
-        st.markdown("#")
-        st.markdown("#### Isabel 🍹")
-        # st.image('David1.png', width = 250)
+        st.markdown('#')
+        st.markdown('#')
+        st.markdown('#### Hayri 🎈')
+        st.image('Hayri.jpeg', width = 250)
+        st.markdown('#')
+        st.markdown('#### Isabel 🍹')
+        st.image('Isabel.jpg', width = 250)
