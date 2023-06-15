@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 
 ##local url
-# url = 'http://localhost:8000/'
+#url = 'http://127.0.0.1:8000'
 url = " https://decode-eykha3qtfq-ew.a.run.app"
 
 # Use the full page instead of a narrow central column
@@ -88,7 +88,6 @@ with tab1:
     imageLocation = st.empty()
     imageLocation.image("face.jpg", width=900)
 
-    # if st.button
 
     st.markdown(
         """
@@ -101,15 +100,7 @@ with tab1:
         unsafe_allow_html=True,
     )
 
-    #####display a widget that returns pictures from th users's webcam.
-    # img_file_buffer = st.camera_input("Take a picture")
 
-    # if img_file_buffer is not None:
-    #     # To read image file buffer as bytes:
-    #     bytes_data = img_file_buffer.getvalue()
-    #     # Check the type of bytes_data:
-    #     # Should output: <class 'bytes'>
-    #     st.write(type(bytes_data))
 
     with st.sidebar:
         st.header("Decode the face")
@@ -142,18 +133,22 @@ with tab1:
 with tab2:
     location = st.empty()
     img_file_buffer = location.camera_input("Take a picture")
-    if img_file_buffer is not None:
-        # To read image file buffer as bytes:
-        bytes_data = img_file_buffer.getvalue()
-        res = requests.post(url=url + "/predict", files={"image": bytes_data})
-        location.image(bytes_data, width=900)
-        nparr = np.frombuffer(bytes_data, np.uint8)
-        image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        result_final = visual(image, res.json())
-        location.image(result_final, width=900)
-        st.write(f"Your mood looks like: {res.json()['mood']}")
 
+    def take_pic(img_file_buffer):
+        if img_file_buffer is not None:
+            # To read image file buffer as bytes:
+            bytes_data = img_file_buffer.getvalue()
+            res = requests.post(url=url + "/predict", files={"image": bytes_data})
+            location.image(bytes_data, width=900)
+            nparr = np.frombuffer(bytes_data, np.uint8)
+            image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            result_final = visual(image, res.json())
+            location.image(result_final, width=900)
+            st.write(f"Your mood looks like: {res.json()['mood']}")
+    take_pic(img_file_buffer)
+    if st.button('try again'):
+        img2 = location.camera_input("Take another one")
+        take_pic(img_file_buffer)
 
 with tab3:
     col1, col2, col3 = st.columns((4, 4, 2))
