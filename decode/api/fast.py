@@ -32,7 +32,7 @@ async def predict(image: UploadFile = File()):
     y_pred = []
     for i in range(len(corners[0])):
         face_corners = corners[0][i]
-        face_img = eq_img[
+        face_img = cv2_img[#eq_img[
             face_corners[1] : face_corners[3],
             face_corners[0] : face_corners[2],
         ]
