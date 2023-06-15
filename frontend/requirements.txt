@@ -6,3 +6,7 @@ numpy
 tensorflow
 seaborn
 matplotlib
+opencv-python-headless
+ffmpeg
+libsm6
+libxext6

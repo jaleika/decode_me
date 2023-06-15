@@ -51,9 +51,12 @@ async def predict(image: UploadFile = File()):
     for i in range(len(corners[0])):
         face_corners = corners[0][i]
         face_img = cv2_img[#eq_img[
+<<<<<<< HEAD
         #try predictions on\
         #original image as model was not trained using equalizer (eq_img)
         # eq_img[
+=======
+>>>>>>> bc3853d053d6b0694845df0cdace17ea54eecb8d
             face_corners[1] : face_corners[3],
             face_corners[0] : face_corners[2],
         ]
@@ -62,7 +65,13 @@ async def predict(image: UploadFile = File()):
             [face_img.mean(axis=-1), face_img.mean(axis=-1), face_img.mean(axis=-1)],
             axis=-1,
         )
+<<<<<<< HEAD
         face_bw_resize = tf.image.resize(face_bw, [224, 224])
+=======
+        face_bw_resize = tf.image.resize(
+            face_bw, [224, 224]
+        )  # changed input size for emotion model
+>>>>>>> bc3853d053d6b0694845df0cdace17ea54eecb8d
         y_pred.append(
             app.state.model_emotion.predict(np.expand_dims(face_bw_resize, 0))
         )
