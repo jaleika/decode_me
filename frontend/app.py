@@ -149,6 +149,7 @@ with tab2:
         location.image(bytes_data, width=900)
         nparr = np.frombuffer(bytes_data, np.uint8)
         image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         result_final = visual(image, res.json())
         location.image(result_final, width=900)
         st.write(f"Your mood looks like: {res.json()['mood']}")
