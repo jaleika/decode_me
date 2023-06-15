@@ -4,10 +4,10 @@ import numpy as np
 import cv2
 
 
-#url = 'http://127.0.0.1:8000'
+url = 'http://127.0.0.1:8000'
 ##local url
 #url = 'http://localhost:8000/'
-url = " https://decode-eykha3qtfq-ew.a.run.app"
+#url = " https://decode-eykha3qtfq-ew.a.run.app"
 
 # Use the full page instead of a narrow central column
 st.set_page_config(
@@ -72,10 +72,10 @@ with tab1:
                 img2,
                 top_left,
                 right_bottom,
-                color,
-                int(scale_factor * (face_corners[2] - face_corners[0]) / 50),
+                color,#(254, 52, 162),#
+                int(scale_factor * (face_corners[2] - face_corners[0]) / 50),#3,#
             )
-            cv2.putText(
+            """cv2.putText(
                 img2,
                 mood[index],
                 tuple(top_left2),
@@ -84,7 +84,7 @@ with tab1:
                 color,
                 int(scale_factor * (face_corners[2] - face_corners[0]) / 50),
                 lineType=cv2.LINE_AA,
-            )
+            )"""
         return img2
 
     imageLocation = st.empty()

@@ -15,7 +15,7 @@ app = FastAPI()
 # the way to load the model into memory
 #app.state.model_face_detection = get_face_detection_model()
 
-DIR_MODELS = f"{LOCAL_MODELS_DATA_PATH}/models"
+#DIR_MODELS = f"{LOCAL_MODELS_DATA_PATH}/models"
 
 # put the latest model into the models-folder and rename it to 'latest_model'
 #app.state.model_emotion = load_model(f'{DIR_MODELS}/latest_model.h5')
@@ -50,7 +50,10 @@ async def predict(image: UploadFile = File()):
     y_pred = []
     for i in range(len(corners[0])):
         face_corners = corners[0][i]
-        face_img = eq_img[
+        face_img = cv2_img[#eq_img[
+        #try predictions on\
+        #original image as model was not trained using equalizer (eq_img)
+        # eq_img[
             face_corners[1] : face_corners[3],
             face_corners[0] : face_corners[2],
         ]
