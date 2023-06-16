@@ -114,18 +114,12 @@ with tab1:
             nparr = np.frombuffer(img_bytes, np.uint8)
             image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
             if st.button(f"Get result"):
-
-                # url_endpoint = f"{url}predict"
                 img_bytes = uploaded_image.getvalue()
-                # st.image(Image.open(uploaded_image))
                 res = requests.post(
                     url=url + "/predict", files={"image": img_bytes}, timeout=300
                 )
                 result_final = visual(image, res.json())
-
                 st.write(f"The mood of the picture is: {res.json()['mood']}")
-                # TODO: change img_bytes in the following so that it contains colored boxes around the faces encoding the mood the emotion as text
-
                 imageLocation.image(result_final, width=900)
 
     st.sidebar.image("face4.jpg", use_column_width=True)
@@ -133,22 +127,15 @@ with tab1:
 with tab2:
     location = st.empty()
     img_file_buffer = location.camera_input("Take a picture")
-
-    def take_pic(img_file_buffer):
-        if img_file_buffer is not None:
-            # To read image file buffer as bytes:
-            bytes_data = img_file_buffer.getvalue()
-            res = requests.post(url=url + "/predict", files={"image": bytes_data})
-            location.image(bytes_data, width=900)
-            nparr = np.frombuffer(bytes_data, np.uint8)
-            image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-            result_final = visual(image, res.json())
-            location.image(result_final, width=900)
-            st.write(f"Your mood looks like: {res.json()['mood']}")
-    take_pic(img_file_buffer)
-    if st.button('try again'):
-        img2 = location.camera_input("Take another one")
-        take_pic(img_file_buffer)
+    if img_file_buffer is not None:
+        # To read image file buffer as bytes:
+        bytes_data = img_file_buffer.getvalue()
+        res = requests.post(url=url + "/predict", files={"image": bytes_data})
+        nparr = np.frombuffer(bytes_data, np.uint8)
+        image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        result_final = visual(image, res.json())
+        st.image(result_final, width=900)
+        st.write(f"Your mood looks like: {res.json()['mood']}")
 
 with tab3:
     col1, col2, col3 = st.columns((4, 4, 2))
